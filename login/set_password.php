@@ -10,10 +10,17 @@ include 'conexion.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nueva = md5($_POST['nueva_contrasenia']);
     $id = $_SESSION['id_usuario'];
-    $conexion->query("UPDATE usuarios SET contrasenia = '$nueva' WHERE id_usuario = $id");
-    session_destroy();
-    header("Location: index.php?msg=1");
-    exit();
+
+    // Verificar que la contraseña no esté ya en uso por otro usuario
+    $verifica = $conexion->query("SELECT id_usuario FROM usuarios WHERE contrasenia = '$nueva'");
+    if ($verifica->num_rows > 0) {
+        $error = "La contraseña ya está en uso por otro usuario. Elige una diferente.";
+    } else {
+        $conexion->query("UPDATE usuarios SET contrasenia = '$nueva' WHERE id_usuario = $id");
+        unset($_SESSION['id_usuario']);
+        header("Location: index.php?msg=1");
+        exit();
+    }
 }
 ?>
 
@@ -37,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body class="d-flex justify-content-center align-items-center">
     <div class="card p-5" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Crear Contraseña</h3>
+        <?php if (isset($error)): ?>
+            <div class="alert alert-danger text-center"><?php echo $error; ?></div>
+        <?php endif; ?>
         <form method="post">
             <div class="mb-3">
                 <label class="form-label">Nueva contraseña</label>

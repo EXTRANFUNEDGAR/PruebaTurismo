@@ -6,7 +6,7 @@ if (!isset($_SESSION['nombre_completo'])) {
 }
 include 'login/conexion.php';
 
-$resultado = $conexion->query("SELECT * FROM vw_usuarios_login WHERE visible = 1 ORDER BY id_usuario ASC
+$resultado = $conexion->query("SELECT * FROM vw_usuarios_login WHERE visible = 1
 ");
 ?>
 
