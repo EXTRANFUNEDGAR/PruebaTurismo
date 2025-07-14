@@ -19,13 +19,16 @@ if ($resultado->num_rows == 1) {
         if ($row['contrasenia'] === md5($contrasenia)) {
             $_SESSION['nombre_completo'] = $row['nombre_completo'];
             header("Location: ../dashboard.php");
-
             exit();
         } else {
-            echo "Contraseña incorrecta.";
+            $_SESSION['login_error'] = "Credenciales inválidas.";
+            header("Location: index.php");
+            exit();
         }
     }
 } else {
-    echo "Usuario no encontrado.";
+    $_SESSION['login_error'] = "Credenciales inválidas.";
+    header("Location: index.php");
+    exit();
 }
 ?>

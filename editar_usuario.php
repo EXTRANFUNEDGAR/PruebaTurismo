@@ -66,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <form method="post" onsubmit="return validarFormularioUsuario();">
+        <form method="post" onsubmit="return validarFormularioEditarUsuario();">
+
             <div class="mb-3">
                 <label>Usuario</label>
                 <input type="text" name="usuario" id="usuario" value="<?php echo $usuario['usuario']; ?>" class="form-control" required>

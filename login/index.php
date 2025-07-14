@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,6 +21,15 @@
 <body class="d-flex justify-content-center align-items-center">
     <div class="card p-5" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Iniciar Sesión</h3>
+
+        <?php if (isset($_SESSION['login_error'])): ?>
+            <div class="alert alert-danger text-center"><?php echo $_SESSION['login_error']; unset($_SESSION['login_error']); ?></div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['msg']) && $_GET['msg'] == 1): ?>
+            <div class="alert alert-success text-center">Contraseña creada con éxito</div>
+        <?php endif; ?>
+
         <form action="login.php" method="post">
             <div class="mb-3">
                 <label class="form-label">Usuario</label>
@@ -29,10 +41,6 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Entrar</button>
         </form>
-        <?php if (isset($_GET['msg']) && $_GET['msg'] == 1): ?>
-    <div class="alert alert-success mt-3 text-center">Contraseña creada con éxito</div>
-<?php endif; ?>
-
     </div>
 </body>
 </html>
